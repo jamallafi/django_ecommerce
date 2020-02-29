@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Shop',
+    'stripe',
+    'crispy_forms',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,6 +66,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'Shop.context_processor.menu_links',
+                'Shop.context_processor.counter',
             ],
         },
     },
@@ -106,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -119,7 +124,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join("staticfiles")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/var/www/static/',
 ]
+
+# media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Stripe
+STRIPE_PUBLISHABLE_KEY = 'pk_test_kUk4eMFpt29dKdcDz8zPNPRg00P5cyGY0X'
+STRIPE_SECRET_KEY = 'sk_test_TiJKNG1evAqq8ZudYHIuWdIr00Gd2AZQrr'
+# crispy fomr
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
