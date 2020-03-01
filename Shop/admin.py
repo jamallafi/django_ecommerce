@@ -1,10 +1,8 @@
 from django.contrib import admin
-from .models import Product, CartItem, Cart, Category, Order, OrderItem
-
+from .models import Product,CartItem,Cart,Category,Order,OrderItem
 # Register your models here.
 
 admin.site.register(Category)
-
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'price', 'stock', 'available', 'created', 'update']
@@ -12,12 +10,10 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_per_page = 20
 
-
-admin.site.register(Product, ProductAdmin)
+admin.site.register(Product,ProductAdmin)
 
 admin.site.register(Cart)
 admin.site.register(CartItem)
-
 
 class OrderItemAdmin(admin.TabularInline):
     model = OrderItem

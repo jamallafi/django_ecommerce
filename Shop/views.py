@@ -8,16 +8,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm
 
-# Create your views here.
 
+# Create your views here.
 
 def home(request, category_slug=None):
     category_page = None
     products = None
     if category_slug != None:
         category_page = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(
-            category=category_page, available=True)
+        products = Product.objects.filter(category=category_page, available=True)
     else:
         products = Product.objects.all().filter(available=True)
 
@@ -30,8 +29,7 @@ def home(request, category_slug=None):
 
 def product(request, category_slug, product_slug):
     try:
-        product = Product.objects.get(
-            category__slug=category_slug, slug=product_slug)
+        product = Product.objects.get(category__slug=category_slug, slug=product_slug)
     except Exception as e:
         raise e
     context = {
@@ -61,8 +59,7 @@ def add_cart(request, product_id):
             cart_item.quantity += 1
         cart_item.save()
     except CartItem.DoesNotExist:
-        cart_item = CartItem.objects.create(
-            product=product, quantity=1, cart=cart)
+        cart_item = CartItem.objects.create(product=product, quantity=1, cart=cart)
         cart_item.save()
     return redirect("cart_detail")
 
@@ -134,8 +131,7 @@ def cart_detail(request, total=0, counter=0, cart_items=None):
 
                     # reduce stock
                     products = Product.objects.get(id=order_item.product.id)
-                    products.stock = int(
-                        order_item.product.stock - order_item.quantity)
+                    products.stock = int(order_item.product.stock - order_item.quantity)
                     products.save()
                     order_item.delete()
 
@@ -154,7 +150,9 @@ def cart_detail(request, total=0, counter=0, cart_items=None):
         except stripe.error.CardError as e:
             return False, e
 
-    return render(request, 'home/cart.html', dict(cart_items=cart_items, total=total, counter=counter, data_key=data_key, stripe_total=stripe_total, description=description))
+    return render(request, 'home/cart.html',
+                  dict(cart_items=cart_items, total=total, counter=counter, data_key=data_key,
+                       stripe_total=stripe_total, description=description))
 
 
 def cart_remove(request, product_id):
